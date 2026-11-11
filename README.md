@@ -6,10 +6,10 @@ theme.
 
 The plugin depends on Qt Core, Gui and WaylandClient, including private APIs
 from the same Qt build. It does not depend on KDE Frameworks, Plasma or KWin.
-The compositor must support the protocol to restore a session; KWin is used
-only for testing. The plugin does not automatically assign window identities:
+The compositor must support the protocol to restore a session (Kwin does). 
+The plugin does not automatically assign window identities:
 the application must provide a stable `sessionRestoreId` before creating the
-first `xdg_toplevel`, as required by the original plasma-integration patch.
+first `xdg_toplevel`.
 
 Build with Qt 6.12 and its matching private headers:
 
@@ -40,30 +40,11 @@ the application also prevents the plugin from intervening.
 
 State is saved on orderly shutdown to
 `$XDG_STATE_HOME/qt-wayland-session-persistence/sessions.ini`, with Qt falling
-back to `~/.local/state`. The original persistence policies are preserved:
+back to `~/.local/state`. 
+
+The persistence policies:
 scoping by machine, desktop, socket, runtime directory and screen configuration;
 per-session ID locks; restoring the last instance to close; precedence for
-`-session`; and conditional invalidation of replaced sessions. The Qt
-`QSettings` store is independent of the old KConfig files: it does not read or
-modify them and does not automatically migrate existing IDs.
-
-Run the tests in the prepared container:
-
-```sh
-docker --host=unix:///var/run/docker.sock exec --user 1000:1000 \
-  -w /workspace/QtWaylandRestorePositionPlugin arch-qt612 \
-  bash -euc 'cmake -S . -B build -G Ninja -DBUILD_TESTING=ON; cmake --build build --parallel 2; python tests/runtime.py'
-```
-
-The suite requires Python 3, KWin Wayland, `dbus-run-session`, Qt Widgets and
-WaylandCompositor. It starts isolated compositors and real applications and
-checks protocol traffic. Each run saves reports and logs under `build/runtime-*`
-and stops the compositors it started.
-
-A separate control probe forces the private window identity API while
-`AA_DisableSessionManager` is set. On the tested Qt 6.12.0 build, this crashes
-with SIGSEGV even without the plugin. The result is recorded separately from
-the plugin checks, with core dumps disabled. Applications should not assign
-that private window identity when session management is disabled.
+`-session`; and conditional invalidation of replaced sessions. 
 
 Licensed under the MIT License; see [LICENSE](LICENSE).
