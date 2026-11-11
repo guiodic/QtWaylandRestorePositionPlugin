@@ -32,6 +32,14 @@ directory, use `cmake --install build`. The default relative destination is
 `lib/qt6/plugins/generic`, configurable through `QT_GENERIC_PLUGIN_INSTALL_DIR`.
 Install only `libwaylandsessionpersistence.so`, not the test platform theme.
 
+Installation also places the executable `waylandsessionpersistence.sh` in
+`/etc/profile.d` to enable the plugin for subsequent login shells. It preserves
+other generic plugins and avoids duplicate entries when sourced again. The
+destination is configurable through `WAYLAND_SESSION_PROFILE_INSTALL_DIR`.
+Install the module into a plugin directory searched by your Qt build (for
+example, configure with `-DCMAKE_INSTALL_PREFIX=/usr` on Arch Linux), or add its
+parent plugin directory to `QT_PLUGIN_PATH` for a custom installation.
+
 To disable the plugin, remove `waylandsessionpersistence` from the list or launch
 the application with `QT_WAYLAND_SESSION_PERSISTENCE_DISABLE=1`. This variable
 disables only this plugin, not an older persistence patch incorporated into

@@ -15,6 +15,8 @@ set_target_properties(waylandsessionpersistence PROPERTIES
 include(GNUInstallDirs)
 set(QT_GENERIC_PLUGIN_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/qt6/plugins/generic" CACHE PATH "Qt generic plugin directory")
 install(TARGETS waylandsessionpersistence LIBRARY DESTINATION "${QT_GENERIC_PLUGIN_INSTALL_DIR}")
+set(WAYLAND_SESSION_PROFILE_INSTALL_DIR "/etc/profile.d" CACHE PATH "Login shell profile script directory")
+install(PROGRAMS waylandsessionpersistence.sh DESTINATION "${WAYLAND_SESSION_PROFILE_INSTALL_DIR}")
 option(BUILD_TESTING "Build runtime probe and sentinel platform theme" ON)
 if(BUILD_TESTING)
     find_package(Qt6 6.12 REQUIRED COMPONENTS Widgets WaylandCompositor)
