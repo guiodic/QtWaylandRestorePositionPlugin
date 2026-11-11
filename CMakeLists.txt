@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.21)
 project(QtWaylandRestorePositionPlugin VERSION 0.1 LANGUAGES CXX)
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    set(CMAKE_INSTALL_PREFIX "/usr" CACHE PATH "Installation prefix" FORCE)
+endif()
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD 17)
 find_package(Qt6 6.12 REQUIRED COMPONENTS Core Gui GuiPrivate WaylandClientPrivate)
